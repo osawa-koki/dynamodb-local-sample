@@ -17,4 +17,5 @@ const config = {
   secretAccessKey: AWS_SECRET_ACCESS_KEY
 }
 AWS.config.update(config)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const dynamodb = new AWS.DynamoDB()
