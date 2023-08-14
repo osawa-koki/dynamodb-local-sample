@@ -3,5 +3,8 @@
   "description": "🪪🪪🪪 DynamoDBをローカルで動かすサンプル！",
   "repository": "https://github.com/osawa-koki/dynamodb-local-sample.git",
   "author": "osawa-koki <koki@osawa.dev>",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "dependencies": {
+    "ts-node": "^10.9.1"
+  }
 }
