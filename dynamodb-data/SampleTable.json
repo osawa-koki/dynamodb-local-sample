@@ -1,0 +1,40 @@
+{
+  "SampleTable": [
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "1"
+          },
+          "name": {
+            "S": "Osawa"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "2"
+          },
+          "name": {
+            "S": "Suzuki"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "3"
+          },
+          "name": {
+            "S": "Yamada"
+          }
+        }
+      }
+    }
+  ]
+}

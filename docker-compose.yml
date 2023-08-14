@@ -1,0 +1,27 @@
+version: '3.8'
+
+# https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html#docker
+services:
+ dynamodb-local:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+ app-node:
+    depends_on:
+      - dynamodb-local
+    image: amazon/aws-cli
+    container_name: app-node
+    ports:
+    - "8080:8080"
+    volumes:
+      - "./dynamodb-schema:/aws/dynamodb-schema"
+      - "./dynamodb-data:/aws/dynamodb-data"
+    environment:
+      AWS_ACCESS_KEY_ID: 'DUMMYIDEXAMPLE'
+      AWS_SECRET_ACCESS_KEY: 'DUMMYEXAMPLEKEY'
+    entrypoint: /bin/bash
