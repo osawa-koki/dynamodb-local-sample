@@ -1,0 +1,7 @@
+{
+  "name": "dynamodb-local-sample",
+  "description": "🪪🪪🪪 DynamoDBをローカルで動かすサンプル！",
+  "repository": "https://github.com/osawa-koki/dynamodb-local-sample.git",
+  "author": "osawa-koki <koki@osawa.dev>",
+  "license": "Apache-2.0"
+}
