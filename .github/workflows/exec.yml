@@ -1,0 +1,27 @@
+name: exec
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v-*']
+
+jobs:
+  check:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Run docker deamon
+        run: docker-compose up -d
+      - name: Exec initial setup
+        run: |
+          docker-compose run --rm app-node -c "aws dynamodb create-table --cli-input-json file://dynamodb-schema/SampleTable.json --endpoint-url http://dynamodb-local:8000 --region ap-northeast-1 --no-cli-pager"
+          docker-compose run --rm app-node -c "aws dynamodb batch-write-item --request-items file://dynamodb-data/SampleTable.json --endpoint-url http://dynamodb-local:8000 --region ap-northeast-1 --no-cli-pager"
+      - name: Install dependencies
+        run: yarn install
+      - name: Exec program
+        run: yarn start
