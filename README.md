@@ -31,6 +31,13 @@ aws dynamodb scan --table-name SampleTable --endpoint-url http://dynamodb-local:
 exit
 ```
 
+また、DynamoDBを操作するNode.jsのプロジェクトも用意しています。  
+
+```shell
+yarn install
+yarn start
+```
+
 ## 参考文献
 
 - [Download DynamoDB local for Docker](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html#docker)
