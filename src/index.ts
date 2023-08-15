@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk'
+import { DynamoDB, type ScanCommandOutput, type GetItemCommandOutput, type ListTablesCommandOutput, type PutItemCommandOutput } from '@aws-sdk/client-dynamodb'
 import { marshall } from '@aws-sdk/util-dynamodb'
 import dotenv from 'dotenv'
 import dayjs from 'dayjs'
@@ -19,12 +19,11 @@ const config = {
   accessKeyId: AWS_ACCESS_KEY_ID,
   secretAccessKey: AWS_SECRET_ACCESS_KEY
 }
-AWS.config.update(config)
-const dynamodb = new AWS.DynamoDB()
+const dynamodb = new DynamoDB(config)
 
-dynamodb.listTables({}, (err, data) => {
+dynamodb.listTables({}, (err, data: ListTablesCommandOutput | undefined) => {
   if (err == null) {
-    if (data.TableNames != null) {
+    if (data?.TableNames != null) {
       console.log('Tables:')
       data.TableNames.forEach((table) => {
         console.log(`- ${table}`)
@@ -47,10 +46,10 @@ dynamodb.listTables({}, (err, data) => {
     })
   }
 
-  dynamodb.putItem(params, (err, data) => {
+  dynamodb.putItem(params, (err: any, data: PutItemCommandOutput | undefined) => {
     console.log('Putting data...')
     if (err == null) {
-      console.log('Success:', data)
+      console.log('Success:', JSON.stringify(data, null, undefined))
     } else {
       console.error('Error:', err)
     }
@@ -66,10 +65,10 @@ dynamodb.listTables({}, (err, data) => {
     })
   }
 
-  dynamodb.getItem(params, (err, data) => {
+  dynamodb.getItem(params, (err: any, data: GetItemCommandOutput | undefined) => {
     console.log('Getting data...')
     if (err == null) {
-      console.log('Success:', data)
+      console.log('Success:', JSON.stringify(data, null, undefined))
     } else {
       console.error('Error:', err)
     }
@@ -82,11 +81,11 @@ dynamodb.listTables({}, (err, data) => {
     TableName: TABLE_NAME
   }
 
-  dynamodb.scan(params, (err, data) => {
+  dynamodb.scan(params, (err: any, data: ScanCommandOutput | undefined) => {
     console.log('Scanning data...')
     if (err == null) {
       // Itemsをループしてデータを取得
-      if (data.Items != null) {
+      if (data?.Items != null) {
         data.Items.forEach((item) => {
           console.log(`- ${JSON.stringify(item, null, undefined)}`)
         })
