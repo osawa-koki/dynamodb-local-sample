@@ -19,5 +19,7 @@ jobs:
         run: docker-compose up -d
       - name: Install dependencies
         run: yarn install
+      - name: Create .env file
+        run: cp .env.example .env
       - name: Exec program
         run: yarn start
