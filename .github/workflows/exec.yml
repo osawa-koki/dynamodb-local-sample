@@ -6,7 +6,7 @@ on:
     tags: ['v-*']
 
 jobs:
-  check:
+  exec:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
