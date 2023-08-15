@@ -16,9 +16,12 @@
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
+    "aws-sdk": "^2.1435.0",
+    "dotenv": "^16.3.1",
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
+    "@types/node": "^20.5.0",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "eslint": "^8.0.1",
     "eslint-config-standard-with-typescript": "^37.0.0",
