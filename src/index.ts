@@ -1,5 +1,7 @@
 import AWS from 'aws-sdk'
+import { marshall } from '@aws-sdk/util-dynamodb'
 import dotenv from 'dotenv'
+import dayjs from 'dayjs'
 
 dotenv.config()
 
@@ -8,6 +10,7 @@ const AWS_DYNAMODB_ENDPOINT = process.env.AWS_DYNAMODB_ENDPOINT!
 const AWS_REGION = process.env.AWS_REGION!
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID!
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY!
+const TABLE_NAME = process.env.TABLE_NAME!
 /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
 const config = {
@@ -33,3 +36,65 @@ dynamodb.listTables({}, (err, data) => {
     console.error(err)
   }
 })
+
+// データを追加
+{
+  const params = {
+    TableName: TABLE_NAME,
+    Item: marshall({
+      id: dayjs().format('YYYY_MM_DD_HH_mm_ss_SSS'),
+      name: `name_${dayjs().format('YYYY_MM_DD_HH_mm_ss_SSS')}`
+    })
+  }
+
+  dynamodb.putItem(params, (err, data) => {
+    console.log('Putting data...')
+    if (err == null) {
+      console.log('Success:', data)
+    } else {
+      console.error('Error:', err)
+    }
+  })
+}
+
+// データを取得
+{
+  const params = {
+    TableName: TABLE_NAME,
+    Key: marshall({
+      id: '1'
+    })
+  }
+
+  dynamodb.getItem(params, (err, data) => {
+    console.log('Getting data...')
+    if (err == null) {
+      console.log('Success:', data)
+    } else {
+      console.error('Error:', err)
+    }
+  })
+}
+
+// データをスキャン
+{
+  const params = {
+    TableName: TABLE_NAME
+  }
+
+  dynamodb.scan(params, (err, data) => {
+    console.log('Scanning data...')
+    if (err == null) {
+      // Itemsをループしてデータを取得
+      if (data.Items != null) {
+        data.Items.forEach((item) => {
+          console.log(`- ${JSON.stringify(item, null, undefined)}`)
+        })
+      } else {
+        console.log('No data...')
+      }
+    } else {
+      console.error('Error:', err)
+    }
+  })
+}
