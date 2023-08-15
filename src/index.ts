@@ -17,5 +17,19 @@ const config = {
   secretAccessKey: AWS_SECRET_ACCESS_KEY
 }
 AWS.config.update(config)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const dynamodb = new AWS.DynamoDB()
+
+dynamodb.listTables({}, (err, data) => {
+  if (err == null) {
+    if (data.TableNames != null) {
+      console.log('Tables:')
+      data.TableNames.forEach((table) => {
+        console.log(`- ${table}`)
+      })
+    } else {
+      console.log('No tables...')
+    }
+  } else {
+    console.error(err)
+  }
+})
